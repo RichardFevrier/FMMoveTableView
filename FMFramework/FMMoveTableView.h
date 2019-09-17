@@ -29,11 +29,25 @@
 - (NSIndexPath *)moveTableView:(FMMoveTableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath;
 
 /**
+ * Tells the delegate that a specified row is about to be prepared.
+ * @param tableView A table-view object informing the delegate about the impending prepare.
+ * @param indexPath An index path locating the row in tableView.
+ */
+- (void)moveTableView:(FMMoveTableView *)tableView prepareRowAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
  * Tells the delegate that a specified row is about to be moved.
  * @param tableView A table-view object informing the delegate about the impending move.
  * @param indexPath An index path locating the row in tableView.
  */
 - (void)moveTableView:(FMMoveTableView *)tableView willMoveRowAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ * Tells the delegate that a specified row is moved.
+ * @param tableView A table-view object informing the delegate about the move.
+ * @param indexPath An index path locating the row in tableView.
+ */
+- (void)moveTableView:(FMMoveTableView *)tableView didMoveRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

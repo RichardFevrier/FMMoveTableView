@@ -8,7 +8,6 @@
 
 #import "FMMoveTableView.h"
 
-
-@interface FMViewController : UITableViewController <FMMoveTableViewDataSource, FMMoveTableViewDelegate>
+@interface FMViewController : UIViewController <FMMoveTableViewDataSource, FMMoveTableViewDelegate>
 
 @end

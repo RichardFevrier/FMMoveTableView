@@ -12,6 +12,25 @@
 #import "FMMoveTableViewCell.h"
 
 
+
+@interface FMViewCell : FMMoveTableViewCell
+
+@end
+
+@implementation FMViewCell
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.contentView.backgroundColor = [UIColor whiteColor];
+    }];
+}
+
+@end
+
+
 @interface FMViewController ()
 
 @property (nonatomic, strong) NSMutableArray *movies;
@@ -38,10 +57,10 @@ static NSString *sCellIdentifier;
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	return [self.movies count];
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    return [self.movies count];
+//}
 
 
 - (NSInteger)tableView:(FMMoveTableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -72,15 +91,15 @@ static NSString *sCellIdentifier;
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-	return [NSString stringWithFormat:@"Section %li", (long)section];
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    return [NSString stringWithFormat:@"Section %li", (long)section];
+//}
 
 
 - (UITableViewCell *)tableView:(FMMoveTableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	FMMoveTableViewCell *cell = (FMMoveTableViewCell *)[tableView dequeueReusableCellWithIdentifier:sCellIdentifier];
+	FMViewCell *cell = (FMViewCell *)[tableView dequeueReusableCellWithIdentifier:sCellIdentifier];
 	
 
 	#warning Implement this check in your table view data source
@@ -134,48 +153,44 @@ static NSString *sCellIdentifier;
 	DLog(@"Moved row from %@ to %@", fromIndexPath, toIndexPath);
 }
 
+- (void)moveTableView:(FMMoveTableView *)tableView prepareRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.contentView.backgroundColor = [UIColor blueColor];
+}
+
+- (void)moveTableView:(FMMoveTableView *)tableView willMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+- (void)moveTableView:(FMMoveTableView *)tableView didMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 
 
 #pragma mark - Table view delegate
 
 - (CGFloat)tableView:(FMMoveTableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    #warning Implement this check in your table view delegate if necessary
-    /******************************** NOTE ********************************
-     * Implement this check in your table view delegate to ensure correct access to the row heights in 
-     * data source. 
-     *
-     * SKIP this check if all of your rows have the same heigt!
-     *
-     * The data source is in a dirty state when moving a row and is only being updated after the user
-     * releases the moving row
-     **********************************************************************/
-    indexPath = [tableView adaptedIndexPathForRowAtIndexPath:indexPath];
-	
-    NSArray *movie = [[self.movies objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    CGFloat heightForRow = [[movie objectAtIndex:kIndexRowHeightOfMovie] floatValue];
-
-    return heightForRow;
+    return 60.f;
 }
 
 
-- (NSIndexPath *)moveTableView:(FMMoveTableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
-{
-	//	Uncomment these lines to enable moving a row just within it's current section
-	//	if ([sourceIndexPath section] != [proposedDestinationIndexPath section]) {
-	//		proposedDestinationIndexPath = sourceIndexPath;
-	//	}
-	
-	return proposedDestinationIndexPath;
-}
+//- (NSIndexPath *)moveTableView:(FMMoveTableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+//{
+//    return proposedDestinationIndexPath;
+//}
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-	DLog(@"Did select row at %@", indexPath);
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//
+//    DLog(@"Did select row at %@", indexPath);
+//}
 
 
 
@@ -192,12 +207,12 @@ static NSString *sCellIdentifier;
     
     NSMutableArray *sampleData = [[dict valueForKey:@"Movies"] mutableCopy];
     NSRange rangeOne = NSMakeRange(0, 15);
-    NSRange rangeTwo = NSMakeRange(15, 15);
+//    NSRange rangeTwo = NSMakeRange(15, 15);
     
     NSMutableArray *sectionOne = [[sampleData objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:rangeOne]] mutableCopy];
-    NSMutableArray *sectionTwo = [[sampleData objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:rangeTwo]] mutableCopy];
+//    NSMutableArray *sectionTwo = [[sampleData objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:rangeTwo]] mutableCopy];
     
-    _movies = [NSMutableArray arrayWithObjects:sectionOne, sectionTwo, nil];
+    _movies = [NSMutableArray arrayWithObjects:sectionOne, nil];
 	
 	return _movies;
 }

@@ -151,6 +151,10 @@
     NSIndexPath *touchedIndexPath = [self indexPathForRowAtPoint:touchPoint];
     self.initialIndexPathForMovingRow = touchedIndexPath;
     self.movingIndexPath = touchedIndexPath;
+    
+    if ([self.delegate respondsToSelector:@selector(moveTableView:prepareRowAtIndexPath:)]) {
+        [self.delegate moveTableView:self prepareRowAtIndexPath:self.movingIndexPath];
+    }
 
     self.snapShotOfMovingCell = [self snapShotFromRowAtMovingIndexPath];
     [self addSubview:self.snapShotOfMovingCell];
@@ -188,6 +192,10 @@
                              
                              if ([self.initialIndexPathForMovingRow compare:self.movingIndexPath] != NSOrderedSame) {
                                  [self.dataSource moveTableView:self moveRowFromIndexPath:self.initialIndexPathForMovingRow toIndexPath:self.movingIndexPath];
+                             }
+                             
+                             if ([self.delegate respondsToSelector:@selector(moveTableView:didMoveRowAtIndexPath:)]) {
+                                 [self.delegate moveTableView:self didMoveRowAtIndexPath:self.movingIndexPath];
                              }
                              
                              [self resetMovingRow];

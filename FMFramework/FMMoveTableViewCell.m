@@ -11,6 +11,14 @@
 
 @implementation FMMoveTableViewCell
 
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.textLabel.text = @"";
+    self.detailTextLabel.text = @"";
+    self.imageView.image = nil;
+}
 
 - (void)prepareForMove
 {
